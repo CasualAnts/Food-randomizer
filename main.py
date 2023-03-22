@@ -6,7 +6,7 @@ import tkinter as tk
 def generaterandomdish():
     frameAddDish.grid_forget()
     frameViewFile.grid_forget()
-    file = open("test.txt", "rt")
+    file = open("Food-randomizer/test.txt", "rt")
     filelines = file.read().split("\n")
     currentDish = filelines[random.randint(0, len(filelines)-1)].split(".")
     labelRandomizedDish.grid(row=1, column=0, sticky="nsew")
@@ -36,7 +36,7 @@ def storedish():
     entryAddRatingOfDish.delete(first=0, last=128)
     entryAddStyleOfDish.delete(first=0, last=128)
 
-    file = open("test.txt", "a")
+    file = open("Food-randomizer/test.txt", "a")
     file.write(entryAddNameOfDish.get() + "." + entryAddRatingOfDish.get() + "." + entryAddStyleOfDish.get() + "\n")
     file.close()
 
@@ -69,7 +69,7 @@ labelAddStyleOfDish = tk.Label(frameAddDish, text="Style of dish")
 buttonStoreDish = tk.Button(frameAddDish, text="Add dish", command=storedish)
 labelAddDishError = tk.Label(frameAddDish)
 
-textViewFile = tk.Text(frameViewFile, width=40, height=40)
+textViewFile = tk.Text(frameViewFile)
 
 buttonRandomDish.grid(row=0, column=0, sticky="ew")
 buttonAddDish.grid(row=0, column=1, sticky="ew")
@@ -87,6 +87,6 @@ labelAddStyleOfDish.grid(row=2, column=0, padx=2, pady=2)
 buttonStoreDish.grid(row=2, column=2, padx=2, pady=2)
 labelAddDishError.grid(row=3, column=0, columnspan=3)
 
-textViewFile.grid(row=1, column=0)
+textViewFile.grid(row=1, column=0, sticky="nsew")
 
 window.mainloop()

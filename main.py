@@ -9,7 +9,7 @@ def generaterandomdish():
     file = open("Food-randomizer/test.txt", "rt")
     filelines = file.read().split("\n")
     currentDish = filelines[random.randint(0, len(filelines)-1)].split(".")
-    labelRandomizedDish.grid(row=1, column=0, sticky="nsew")
+    labelRandomizedDish.grid(row=1, column=0)
     labelRandomizedDish.config(text=currentDish[0])
     file.close()
 
@@ -43,6 +43,16 @@ def storedish():
 
 def viewfile():
     frameViewFile.grid(row=1, column=0)
+    textViewFile.delete("1.0", tk.END)
+    file = open("Food-randomizer/test.txt", "rt")
+    textViewFile.insert(tk.END, file.read())
+    file.close()
+
+
+def savefile():
+    file = open("Food-randomizer/test.txt", "wt")
+    file.write(textViewFile.get("1.0", tk.END))
+    file.close
 
 
 window = tk.Tk()
@@ -70,6 +80,7 @@ buttonStoreDish = tk.Button(frameAddDish, text="Add dish", command=storedish)
 labelAddDishError = tk.Label(frameAddDish)
 
 textViewFile = tk.Text(frameViewFile)
+buttonSaveFile = tk.Button(frameViewFile, text="Save", command=savefile)
 
 buttonRandomDish.grid(row=0, column=0, sticky="ew")
 buttonAddDish.grid(row=0, column=1, sticky="ew")
@@ -87,6 +98,7 @@ labelAddStyleOfDish.grid(row=2, column=0, padx=2, pady=2)
 buttonStoreDish.grid(row=2, column=2, padx=2, pady=2)
 labelAddDishError.grid(row=3, column=0, columnspan=3)
 
-textViewFile.grid(row=1, column=0, sticky="nsew")
+textViewFile.grid(row=0, column=0)
+buttonSaveFile.grid(row=0, column=1, sticky="s", padx=5, pady=5)
 
 window.mainloop()

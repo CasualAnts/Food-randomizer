@@ -14,23 +14,29 @@ def randomizedish():
     file = open("Food-randomizer/test.txt", "rt")
     fileLines = file.read().split("\n")
     potentialDishes = []
-    for i in fileLines:
+    i = 0
+    while i < len(fileLines):
         currentdish = fileLines[i].split(".")
+        i += 1
         if len(entryRandomStyle.get()) > 0:
             if not currentdish[1].lower() == entryRandomStyle.get().lower():
                 continue
         
         if len(entryRandomRating.get()) > 0:
-            if int(currentdish[2]) <= int(entryRandomRating.get()):
+            if int(currentdish[2]) < int(entryRandomRating.get()):
                 continue
 
         if len(entryRandomTime.get()) > 0:
-            if int(currentdish[3]) <= int(entryRandomTime.get()):
+            if int(currentdish[3]) < int(entryRandomTime.get()):
                 continue
 
-        potentialDishes.append(fileLines[i])
-    print(potentialDishes)
+        potentialDishes.append(fileLines[i - 1])
+    labelRandomizedDish.config(text=potentialDishes[random.randint(0, len(potentialDishes)) - 1], fg="green")
     file.close()
+
+    entryRandomRating.delete(first=0, last=tk.END)
+    entryRandomStyle.delete(first=0, last=tk.END)
+    entryRandomTime.delete(first=0, last=tk.END)
 
 
 def adddish():

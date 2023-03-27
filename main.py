@@ -14,8 +14,22 @@ def randomizedish():
     file = open("Food-randomizer/test.txt", "rt")
     fileLines = file.read().split("\n")
     potentialDishes = []
-    print(len(entryRandomStyle.get()))
+    for i in fileLines:
+        currentdish = fileLines[i].split(".")
+        if len(entryRandomStyle.get()) > 0:
+            if not currentdish[1].lower() == entryRandomStyle.get().lower():
+                continue
+        
+        if len(entryRandomRating.get()) > 0:
+            if int(currentdish[2]) <= int(entryRandomRating.get()):
+                continue
 
+        if len(entryRandomTime.get()) > 0:
+            if int(currentdish[3]) <= int(entryRandomTime.get()):
+                continue
+
+        potentialDishes.append(fileLines[i])
+    print(potentialDishes)
     file.close()
 
 

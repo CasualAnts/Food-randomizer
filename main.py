@@ -10,11 +10,19 @@ def randomdish():
 
 
 def randomizedish():
-    print("this doesnt work")
     file = open("Food-randomizer/test.txt", "rt")
     fileLines = file.read().split("\n")
     potentialDishes = []
     i = 0
+
+    if len(entryRandomRating.get()) > 0:
+        if not entryRandomRating.get().isnumeric():
+            labelRandomizedDish.config(fg="red", text="The rating field contains a non number")
+            return
+        if int(entryRandomRating.get()) > 5:
+            labelRandomizedDish.config(fg="red", text="The rating is above 5")
+            return
+    
     while i < len(fileLines):
         currentdish = fileLines[i].split(".")
         i += 1
@@ -31,9 +39,16 @@ def randomizedish():
                 continue
 
         potentialDishes.append(fileLines[i - 1])
-    labelRandomizedDish.config(text=potentialDishes[random.randint(0, len(potentialDishes)) - 1], fg="green")
+    if len(potentialDishes) < 1:
+        labelRandomizedDish.config(text="There are no dishes that matches the inputed criteria", fg="red")
+        return
+    
+    randomizedDish = potentialDishes[random.randint(0, len(potentialDishes)) - 1].split(".")
+    labelRandomizedDish.config(text=randomizedDish[0], fg="green")
     file.close()
 
+
+def clearrandomizedentries():
     entryRandomRating.delete(first=0, last=tk.END)
     entryRandomStyle.delete(first=0, last=tk.END)
     entryRandomTime.delete(first=0, last=tk.END)
@@ -141,6 +156,7 @@ buttonViewFile.grid(row=0, column=2, sticky="ew")
 # create the randomized dish screen
 labelRandomizedDish = tk.Label(frameRandomizeDish)
 buttonRandomizeDish = tk.Button(frameRandomizeDish, text="Randomize dish", command=randomizedish)
+buttonClearRandomizedEntries = tk.Button(frameRandomizeDish, text="Clear", command=clearrandomizedentries)
 
 entryRandomRating = tk.Entry(frameRandomizeDish)
 entryRandomStyle = tk.Entry(frameRandomizeDish)
@@ -156,8 +172,9 @@ labelRandomRating.grid(row=0, column=0, padx=2, pady=2)
 labelRandomStyle.grid(row=1, column=0, padx=2, pady=2)
 labelRandomTime.grid(row=2, column=0, padx=2, pady=2)
 
-labelRandomizedDish.grid(row=3, column=0, sticky="nsew")
-buttonRandomizeDish.grid(row=2, column=3)
+labelRandomizedDish.grid(row=3, column=0, columnspan=2)
+buttonRandomizeDish.grid(row=2, column=3, padx=2, pady=2)
+buttonClearRandomizedEntries.grid(row=1, column=3, padx=2, pady=2)
 
 # create the add dish screen
 entryAddNameOfDish = tk.Entry(frameAddDish)
